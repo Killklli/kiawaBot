@@ -20,6 +20,32 @@ const spawn = require('child_process').spawn;
 //Include line reading module
 const fs = require('fs');
 //const { getFileCache } = require("./FileCacheService");
+
+// Ensure data directory exists
+const dataDir = './data';
+if (!fs.existsSync(dataDir)) {
+    console.log('Creating data directory...');
+    fs.mkdirSync(dataDir, { recursive: true });
+}
+
+// Initialize data files if they don't exist
+const defaultFiles = [
+    { path: quote_Path, content: [] },
+    { path: streak_Path, content: {} },
+    { path: command_Path, content: [] }
+];
+
+defaultFiles.forEach(({ path, content }) => {
+    if (!fs.existsSync(path)) {
+        console.log(`Creating default ${path}...`);
+        try {
+            jsonfile.writeFileSync(path, content, { spaces: 2, EOL: "\n" });
+        } catch (error) {
+            console.error(`Failed to create ${path}:`, error);
+        }
+    }
+});
+
 const t1Value = 3.60;
 const t2Value = 6.00;
 const t3Value = 17.50;
