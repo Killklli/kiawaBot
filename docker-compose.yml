@@ -8,6 +8,7 @@ services:
     ports:
       - "3000:3000"  # OAuth redirect port
       - "8081:8081"  # Web server port
+      - "8080:8080"  # Web socket port
     environment:
       - NODE_ENV=production
       - WEB_PORT=8081
